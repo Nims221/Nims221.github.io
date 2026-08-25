@@ -200,3 +200,44 @@ button{font:inherit}
   .case-media-badge{left:12px;bottom:12px;right:12px;justify-content:space-between}
   .case-media-badge strong{font-size:8px}
 }
+
+/* V4.1 — Hero console alignment hotfix */
+@media (min-width: 981px) {
+  .hero-grid {
+    align-items: start;
+  }
+
+  /* .reveal.visible defines transform:none, so this selector must be more specific. */
+  .hero-console.reveal.visible {
+    align-self: start;
+    margin-top: 0;
+    transform: translateY(-72px) rotate(1deg);
+  }
+}
+
+@media (max-width: 980px) {
+  .hero-console.reveal.visible {
+    margin-top: 0;
+    transform: none;
+  }
+}
+
+/* V4.2 — Hero typography sizing */
+.hero h1{
+  font-size:clamp(46px,5.25vw,76px);
+  line-height:1.01;
+  letter-spacing:-.055em;
+}
+
+@media (max-width:1200px){
+  .hero h1{
+    font-size:clamp(44px,5.6vw,70px);
+  }
+}
+
+@media (max-width:680px){
+  .hero h1{
+    font-size:clamp(38px,11vw,54px);
+    line-height:1.02;
+  }
+}
