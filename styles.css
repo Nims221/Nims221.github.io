@@ -241,3 +241,128 @@ button{font:inherit}
     line-height:1.02;
   }
 }
+
+/* V4.3 — Balanced premium hero */
+@media (min-width: 981px) {
+  .hero {
+    min-height:auto;
+    padding:132px 0 34px;
+  }
+
+  .hero > .shell {
+    width:min(calc(100% - 48px),1280px);
+  }
+
+  .hero-grid {
+    grid-template-columns:minmax(0,1.06fr) minmax(430px,.84fr);
+    gap:58px;
+    align-items:start;
+  }
+
+  .hero-copy {
+    padding-top:4px;
+  }
+
+  .availability {
+    margin-bottom:0;
+  }
+
+  .hero-kicker {
+    margin:24px 0 13px;
+  }
+
+  .hero h1 {
+    max-width:780px;
+    font-size:clamp(46px,4.45vw,66px);
+    line-height:.98;
+    letter-spacing:-.055em;
+  }
+
+  .hero h1 span {
+    white-space:nowrap;
+  }
+
+  .hero-lead {
+    max-width:720px;
+    margin-top:22px;
+    font-size:17px;
+    line-height:1.58;
+  }
+
+  .hero-actions {
+    margin-top:26px;
+  }
+
+  /* Keep the console aligned with the content instead of sticking to the header. */
+  .hero-console.reveal.visible {
+    align-self:start;
+    margin-top:8px;
+    transform:rotate(1deg);
+  }
+
+  .hero-bottom {
+    width:min(calc(100% - 48px),1280px);
+    margin-top:52px;
+  }
+
+  .hero-bottom > div {
+    min-height:104px;
+    padding:22px 25px;
+  }
+}
+
+@media (min-width:981px) and (max-width:1180px) {
+  .hero-grid {
+    grid-template-columns:minmax(0,1fr) minmax(380px,.82fr);
+    gap:42px;
+  }
+
+  .hero h1 {
+    max-width:690px;
+    font-size:clamp(44px,5vw,60px);
+  }
+
+  .hero h1 span {
+    white-space:normal;
+  }
+
+  .hero-console.reveal.visible {
+    margin-top:12px;
+  }
+}
+
+@media (max-width:980px) {
+  .hero {
+    padding-top:116px;
+  }
+
+  .hero-console.reveal.visible {
+    margin-top:0;
+    transform:none;
+  }
+
+  .hero h1 span {
+    white-space:normal;
+  }
+}
+
+@media (max-width:680px) {
+  .hero {
+    padding:108px 0 26px;
+  }
+
+  .hero h1 {
+    font-size:clamp(36px,10.5vw,50px);
+    line-height:1;
+    letter-spacing:-.05em;
+  }
+
+  .hero-kicker {
+    margin-top:22px;
+  }
+
+  .hero-lead {
+    margin-top:20px;
+    font-size:16px;
+  }
+}
