@@ -5,9 +5,9 @@ En ligne : https://nims221.github.io/
 
 ## Ce qu'il y a dedans
 
-- **Hero** avec réseau animé (canvas) et **terminal interactif** (`help`, `projects`, `open jaguar`, `sudo hire-me`…)
+- **Thème clair, accent bleu** · **Hero** avec réseau animé (canvas) et **terminal interactif** (`help`, `projects`, `open jaguar`, `sudo hire-me`…)
 - **Palette de commandes** : `Ctrl + K` (ou `/`) pour naviguer, ouvrir un projet, copier l'email
-- **9 projets** avec filtres et études de cas en fenêtre (deep link : `#projet-jaguar`)
+- **Vitrine de projets** façon studio (ordinateur, tablette, téléphone avec reflets) + grille de 9 projets avec filtres et fiche détaillée (deep link : `#projet-jaguar`)
 - **Pipeline CI/CD animé** et labs DevOps open source
 - Parcours, contenus LinkedIn, contact
 

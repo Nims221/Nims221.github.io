@@ -145,7 +145,7 @@
         for (let j = i + 1; j < nodes.length; j++) {
           const b = nodes[j], d = Math.hypot(a.x - b.x, a.y - b.y);
           if (d < LINK) {
-            ctx.strokeStyle = `rgba(61,252,138,${(1 - d / LINK) * 0.16})`;
+            ctx.strokeStyle = `rgba(37,99,235,${(1 - d / LINK) * 0.18})`;
             ctx.lineWidth = 1;
             ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
             if (packets.length < 14 && Math.random() < 0.0009) packets.push({ a, b, t: 0, s: 0.008 + Math.random() * 0.012 });
@@ -153,12 +153,12 @@
         }
         const md = Math.hypot(a.x - mouse.x, a.y - mouse.y);
         if (md < 200) {
-          ctx.strokeStyle = `rgba(69,200,255,${(1 - md / 200) * 0.35})`;
+          ctx.strokeStyle = `rgba(14,165,233,${(1 - md / 200) * 0.4})`;
           ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
         }
       }
       for (const n of nodes) {
-        ctx.fillStyle = n.r > 2 ? "rgba(61,252,138,.9)" : "rgba(200,220,210,.45)";
+        ctx.fillStyle = n.r > 2 ? "rgba(37,99,235,.85)" : "rgba(71,85,105,.35)";
         ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
       }
       packets = packets.filter((p) => {
@@ -166,7 +166,7 @@
         if (p.t >= 1) return false;
         const x = p.a.x + (p.b.x - p.a.x) * p.t, y = p.a.y + (p.b.y - p.a.y) * p.t;
         const g = ctx.createRadialGradient(x, y, 0, x, y, 8);
-        g.addColorStop(0, "rgba(61,252,138,.95)"); g.addColorStop(1, "rgba(61,252,138,0)");
+        g.addColorStop(0, "rgba(37,99,235,.9)"); g.addColorStop(1, "rgba(37,99,235,0)");
         ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI * 2); ctx.fill();
         return true;
       });
@@ -191,7 +191,7 @@
         let out = "", done = 0;
         for (const o of q) {
           if (frame >= o.e) { done++; out += o.t; }
-          else if (frame >= o.s) out += `<span style="color:var(--green)">${esc(chars[Math.floor(Math.random() * chars.length)])}</span>`;
+          else if (frame >= o.s) out += `<span style="color:var(--accent)">${esc(chars[Math.floor(Math.random() * chars.length)])}</span>`;
           else out += esc(o.f);
         }
         el.innerHTML = out;
@@ -346,56 +346,37 @@
   /* ---------------- projects ---------------- */
   const grid = $("#projects");
   const arrow = '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
-  function cardHTML(p, i) {
-    const tags = (p.stack.length ? p.stack : p.services || []).slice(0, p.featured ? 6 : 4);
-    const badge = p.status ? `<span class="badge${p.url ? "" : " badge--muted"}">${esc(p.status)}</span>` : "";
-    const feat = p.featured ? `<ul class="card__feat-list">${p.features.slice(0, 6).map((f) => `<li>${esc(f)}</li>`).join("")}</ul>` : "";
+  const laptop = (src, alt, lazy) => `<div class="dev-laptop"><div class="dev-laptop__screen"><img src="${src}" alt="${esc(alt)}"${lazy ? ' loading="lazy" decoding="async"' : ""}></div><div class="dev-laptop__base"></div></div>`;
+  const phone = (src, alt, lazy) => `<div class="dev-phone"><img src="${src}" alt="${esc(alt)}"${lazy ? ' loading="lazy" decoding="async"' : ""}></div>`;
+  const tagsOf = (p) => (p.stack.length ? p.stack : p.services || []);
+  const liveBadge = (p) => p.url ? `<span class="live">en ligne</span>` : p.status ? `<span class="live live--pilot">${esc(p.status.toLowerCase())}</span>` : "";
+  function cardHTML(p) {
     return `
-      <article class="card${p.featured ? " card--feat" : ""} reveal" data-id="${p.id}" data-cat="${p.cat}" tabindex="0" role="button" aria-label="Voir l'étude de cas ${esc(p.name)}">
-        <div class="card__media">
-          <div class="browser">
-            <div class="browser__bar"><i></i><i></i><i></i><span class="browser__url">${p.url ? esc(host(p.url)) : esc(p.id + ".app")}</span></div>
-            <div class="browser__shot"><img src="${p.images[0]}" alt="Capture du projet ${esc(p.name)}" loading="lazy" decoding="async"></div>
-          </div>
-          ${p.phone ? `<div class="phone"><img src="${p.phone}" alt="" loading="lazy" decoding="async"></div>` : ""}
+      <article class="card reveal" data-id="${p.id}" data-cat="${p.cat}" tabindex="0" role="button" aria-label="Voir le projet ${esc(p.name)}">
+        <div class="card__scene">
+          ${laptop(p.images[0], p.name + " sur ordinateur", true)}
+          ${p.phone ? `<div class="card__phone">${phone(p.phone, p.name + " sur mobile", true)}</div>` : ""}
         </div>
         <div class="card__body">
-          <div class="card__top"><span class="card__k">${esc(p.kicker)}</span><span class="card__idx">${String(i + 1).padStart(2, "0")} / ${String(PROJECTS.length).padStart(2, "0")}</span></div>
-          <h3 class="card__name">${esc(p.name)} ${badge}</h3>
-          <p class="card__desc">${esc(p.short)}</p>
-          ${feat}
-          <div class="card__foot">
-            <ul class="chips chips--sm">${tags.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
-            <span class="card__cta">étude de cas ${arrow}</span>
+          <div class="card__row">
+            <h3 class="card__name">${esc(p.name)}</h3>
+            <div class="card__meta">${liveBadge(p)}<span class="card__go">${arrow}</span></div>
           </div>
+          <p class="card__k">${esc(p.kicker)}</p>
+          <ul class="chips chips--sm">${tagsOf(p).slice(0, 3).map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
         </div>
       </article>`;
   }
   function renderProjects() {
     grid.innerHTML = PROJECTS.map(cardHTML).join("");
     $("#cntAll").textContent = PROJECTS.length;
-    layoutCards();
     observeReveals(grid);
     $$(".card", grid).forEach((c) => {
       c.addEventListener("click", () => openModal(c.dataset.id));
       c.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openModal(c.dataset.id); } });
-      if (finePointer && !reduce) {
-        c.addEventListener("pointermove", (e) => {
-          const r = c.getBoundingClientRect();
-          const rx = ((e.clientY - r.top) / r.height - 0.5) * -5, ry = ((e.clientX - r.left) / r.width - 0.5) * 6;
-          c.style.transform = `perspective(1400px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
-        });
-        c.addEventListener("pointerleave", () => { c.style.transform = ""; });
-      }
     });
   }
-  /* the last regular card spans the full row when the count is odd */
-  function layoutCards() {
-    const vis = $$(".card:not(.is-hidden)", grid);
-    vis.forEach((c) => c.classList.remove("card--wide"));
-    const regular = vis.filter((c) => !c.classList.contains("card--feat"));
-    if (regular.length % 2 === 1) regular[regular.length - 1].classList.add("card--wide");
-  }
+  $$("[data-open]").forEach((b) => b.addEventListener("click", () => openModal(b.dataset.open)));
   $$(".filter").forEach((f) => f.addEventListener("click", () => {
     $$(".filter").forEach((x) => { x.classList.toggle("is-active", x === f); x.setAttribute("aria-selected", x === f); });
     const k = f.dataset.filter;
@@ -404,7 +385,6 @@
       c.classList.toggle("is-hidden", !show);
       if (show) { c.classList.remove("is-in"); requestAnimationFrame(() => c.classList.add("is-in")); }
     });
-    layoutCards();
   }));
 
   /* ---------------- modal ---------------- */
@@ -415,22 +395,17 @@
     if (!p) return;
     lastFocus = document.activeElement;
     closePalette();
-    const imgs = p.images.map((src, i) => `<figure><img src="${src}" alt="${esc(p.name)} — capture ${i + 1}"></figure>`);
-    if (p.phone) imgs.push(`<figure class="is-phone"><img src="${p.phone}" alt="${esc(p.name)} — version mobile"></figure>`);
-    $("#mMedia").innerHTML = imgs.join("");
+    $("#mStage").innerHTML = `<div class="m-dev m-dev--laptop">${laptop(p.images[0], p.name + " sur ordinateur")}</div>` + (p.phone ? `<div class="m-dev m-dev--phone">${phone(p.phone, p.name + " sur mobile")}</div>` : "");
     $("#mKicker").textContent = p.kicker;
     $("#mTitle").textContent = p.name;
     $("#mLead").textContent = p.short;
-    const box = (t, html, full) => `<div class="modal__box${full ? " modal__box--full" : ""}"><h4>${t}</h4>${html}</div>`;
-    let cols = box("Le besoin", `<p>${esc(p.problem)}</p>`) + box("Ce que j'ai construit", `<p>${esc(p.built)}</p>`);
-    cols += box("Fonctionnalités clés", `<ul class="chips">${p.features.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>`, true);
-    if (p.stack.length) cols += box("Stack technique", `<ul class="chips">${p.stack.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>`, !p.services);
-    if (p.services) cols += box("Livrables", `<ul class="chips">${p.services.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>`, !p.stack.length);
-    $("#mCols").innerHTML = cols;
+    const chips = (arr) => `<ul class="chips">${arr.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>`;
+    $("#mFacts").innerHTML =
+      `<div><dt>Fonctionnalités</dt><dd>${chips(p.features)}</dd></div>` +
+      `<div><dt>${p.stack.length ? "Stack" : "Livré"}</dt><dd>${chips(tagsOf(p))}</dd></div>`;
     $("#mFoot").innerHTML = (p.url
-      ? `<a class="btn btn--primary" href="${p.url}" target="_blank" rel="noopener"><span>Voir le site en ligne</span>${arrow}</a>`
-      : `<span class="note">● ${esc(p.status || "Projet client")} · code privé</span>`) +
-      `<button class="btn btn--ghost" type="button" data-close><span>Fermer</span></button>`;
+      ? `<a class="btn btn--primary" href="${p.url}" target="_blank" rel="noopener"><span>Voir le site</span>${arrow}</a><span class="note">${esc(host(p.url))}</span>`
+      : `<span class="note">${esc(p.status || "Projet client")} · code privé</span>`);
     modal.hidden = false;
     document.body.style.overflow = "hidden";
     $(".modal__panel", modal).scrollTop = 0;
