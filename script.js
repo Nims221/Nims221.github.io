@@ -117,7 +117,7 @@
       nodes = Array.from({ length: n }, () => ({
         x: Math.random() * W, y: Math.random() * H,
         vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25,
-        r: Math.random() < 0.12 ? 2.4 : 1.3
+        r: Math.random() < 0.12 ? 2.4 : 1.3, o: Math.random() < 0.5
       }));
     };
     resize();
@@ -153,12 +153,12 @@
         }
         const md = Math.hypot(a.x - mouse.x, a.y - mouse.y);
         if (md < 200) {
-          ctx.strokeStyle = `rgba(14,165,233,${(1 - md / 200) * 0.4})`;
+          ctx.strokeStyle = `rgba(6,182,212,${(1 - md / 200) * 0.5})`;
           ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
         }
       }
       for (const n of nodes) {
-        ctx.fillStyle = n.r > 2 ? "rgba(37,99,235,.85)" : "rgba(71,85,105,.35)";
+        ctx.fillStyle = n.r > 2 ? (n.o ? "rgba(6,182,212,.9)" : "rgba(37,99,235,.85)") : "rgba(2,132,199,.35)";
         ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
       }
       packets = packets.filter((p) => {
