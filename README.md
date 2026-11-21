@@ -1,40 +1,35 @@
 # Portfolio — Abdou Nimaga
 
-Portfolio personnel présentant un profil hybride **Infrastructure / DevOps / Application Development**.
+Portfolio personnel : **Développeur Full-Stack & DevOps**, Dakar.
+En ligne : https://nims221.github.io/
 
-## Positionnement
+## Ce qu'il y a dedans
 
-- IT Manager — systèmes, réseaux, support N2/N3 et sécurité
-- DevOps — Docker, Git, CI/CD, scripting, cloud et automatisation
-- Développement freelance — applications web, e-commerce, back-offices et outils métiers
+- **Hero** avec réseau animé (canvas) et **terminal interactif** (`help`, `projects`, `open jaguar`, `sudo hire-me`…)
+- **Palette de commandes** : `Ctrl + K` (ou `/`) pour naviguer, ouvrir un projet, copier l'email
+- **9 projets** avec filtres et études de cas en fenêtre (deep link : `#projet-jaguar`)
+- **Pipeline CI/CD animé** et labs DevOps open source
+- Parcours, contenus LinkedIn, contact
 
-## Réalisations sélectionnées
+## Stack
 
-La V3 met en avant des projets réels avec captures d'interface et études de cas :
+Site statique sans dépendance ni build : HTML, CSS, JavaScript vanilla.
+Polices via Google Fonts (Space Grotesk, Inter, JetBrains Mono). Images en WebP.
 
-1. **JAGUAR** — e-commerce mode : catalogue, collections, variantes, stock, panier, commande et administration.
-2. **CUIR CONFECTION** — ERP métier : catalogue, production, stock, clients, ventes et comptabilité.
-3. **HOPE** — plateforme multi-service : Beauty, boutique et Academy.
-4. **AT** — e-commerce mode, parfums et accessoires avec parcours de commande local.
+Accessibilité : navigation clavier, `prefers-reduced-motion` respecté (animations coupées), contenus lisibles sans JS hors projets.
 
-Les dépôts clients ou projets privés ne sont pas exposés publiquement. Le portfolio renvoie au profil GitHub général lorsque du code public est disponible.
+## Ajouter ou modifier un projet
 
-## Infrastructure & DevOps
-
-Le portfolio conserve également des labs techniques autour de Docker, GLPI + Active Directory et du durcissement Windows par GPO.
-
-## Stack du portfolio
-
-Site statique sans dépendances :
-
-- HTML
-- CSS
-- JavaScript vanilla
+Tout se passe dans [`projects.js`](projects.js) : copier un bloc, le compléter, déposer les captures dans `assets/img/` (WebP, ~1400 px de large ; capture mobile en 430 × 931 pour le mockup téléphone).
 
 ## Lancer en local
 
-Ouvrir `index.html` directement ou placer le dossier dans un serveur local (XAMPP, Live Server, etc.).
+```bash
+python3 -m http.server 8000
+```
 
-## Déploiement GitHub Pages
+Puis ouvrir http://localhost:8000.
 
-Le projet peut être publié dans un dépôt `Nims221.github.io` puis activé avec GitHub Pages depuis la branche `main`.
+## Déploiement
+
+GitHub Pages, depuis la branche `main` (racine du dépôt).
